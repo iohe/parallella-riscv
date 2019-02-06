@@ -34,6 +34,8 @@ parallella_bitstream: $(parallella_bitstream)
 
 zedboard_bitstream : bitstream
 
+cora_bitstream : bitstream
+
 # Deprecated due to PetaLinux process
 # zedboard_bitstream = $(final_output_dir)/boot.bin
 # $(zedboard_bitstream): bitstream
@@ -82,6 +84,7 @@ system_project: $(system_project)
 
 parallella_ip_deps: parallella_ip_package riscv_ip_setup riscv_ip_package
 zedboard_ip_deps: riscv_ip_setup riscv_ip_package
+cora_ip_deps: riscv_ip_setup riscv_ip_package
 
 parallella_ip_package = $(fpga_dir)/parallella_base/parallella_base.xpr
 $(parallella_ip_package): $(fpga_dir)/ip_params_parallella.tcl
@@ -149,6 +152,44 @@ zedboard_software:
 	petalinux-package --boot --fsbl images/linux/zynq_fsbl.elf --fpga images/linux/system.bit --u-boot
 	cp $(petalinux_dir)/riscv_zynq/images/linux/BOOT.BIN $(final_output_dir)
 	cp $(petalinux_dir)/riscv_zynq/images/linux/image.ub $(final_output_dir)
+
+
+#
+# ------------------------
+# Cora PetaLinux Build
+# ------------------------
+#
+
+
+CORA_BSP_FILE = Petalinux-Cora-Z7-10-2017.4-1.bsp
+#CORA_BSP_URL = https://github.com/Digilent/Petalinux-Cora-Z7-10/releases/download/v2017.4-1/$(ZEDBOARD_BSP_FILE)
+
+
+CORA_BSP = $(PETALINUX_PATH)/$(CORA_BSP_FILE)
+
+petalinux_dir = $(base_dir)/cora/petalinux
+
+# When configuring the rootfs
+# you need to enable libstdc++
+# (FileSystem Packages > misc > gcc runtime)
+
+cora_software:
+# wget -P $(CORA_BSP_PATH) $(CORA_BSP_URL)
+	mkdir -p $(petalinux_dir)
+	unset LD_LIBRARY_PATH && \
+	source $(PETALINUX_PATH)/settings.sh && \
+	source $(PETALINUX_PATH)/components/yocto/source/arm/environment-setup-cortexa9hf-neon-xilinx-linux-gnueabi && \
+	cd $(petalinux_dir) && \
+	petalinux-create -t project -s $(CORA_BSP) --name riscv_zynq --force && \
+	cd riscv_zynq && \
+	petalinux-config --get-hw-description=../../fpga/ --oldconfig && \
+	petalinux-config -c rootfs && \
+	petalinux-build && \
+	petalinux-package --boot --fsbl images/linux/zynq_fsbl.elf --fpga images/linux/system.bit --u-boot
+	cp $(petalinux_dir)/riscv_zynq/images/linux/BOOT.BIN $(final_output_dir)
+	cp $(petalinux_dir)/riscv_zynq/images/linux/image.ub $(final_output_dir)
+
+
 
 #
 # --------------------------------------
@@ -305,6 +346,7 @@ riscv_rocketcore: $(RocketCoreIPDir)/$(RISCV_CORE_ARCH).Core.vh
 
 riscv_toolchain:
   # Install necessary packages (Ubuntu)
+        # #--with-arch=rv64ima,not RV64IMA!!!
 	# sudo apt-get install autoconf automake autotools-dev curl \
 	# libmpc-dev libmpfr-dev libgmp-dev libusb-1.0-0-dev gawk build-essential bison flex \
 	# texinfo gperf libtool patchutils bc zlib1g-dev device-tree-compiler pkg-config
