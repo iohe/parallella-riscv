@@ -1,0 +1,4 @@
+*.bit
+/riscv_rv64/
+/cora_riscv/
+/system_bd_new.tcl

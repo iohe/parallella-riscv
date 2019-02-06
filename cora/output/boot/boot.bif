@@ -1,0 +1,6 @@
+the_ROM_image:
+{
+  [bootloader]FSBL.elf
+  zedboard.bit
+  u-boot.elf
+}
