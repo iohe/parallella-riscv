@@ -38,3 +38,6 @@
 	path = ip/testchipip
 	url = https://github.com/ucb-bar/testchipip.git
 	branch = master
+[submodule "boot/cora-uboot"]
+	path = boot/cora-uboot
+	url = https://github.com/Digilent/u-boot-digilent.git
