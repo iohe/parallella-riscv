@@ -258,7 +258,7 @@ endif
 	make CROSS_COMPILE=$(CROSS_TOOLCHAIN_LINUX)- $(UBOOT_CONFIG)_defconfig
   # Build U-Boot
 	export PATH=$(dtc_dir):$$PATH && \
-	cd $(uboot_dir) && make CROSS_COMPILE=$(CROSS_TOOLCHAIN_LINUX)- -j${JOBS}
+	cd $(uboot_dir) && make CROSS_COMPILE=$(CROSS_TOOLCHAIN_LINUX)- -j${JOBS} DEVICE_TREE=$(UBOOT_DTS)
 	mkdir -p $(boot_build_dir)
 	cp $(uboot_dir)/u-boot $(boot_build_dir)/u-boot.elf
 
