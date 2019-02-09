@@ -23,11 +23,13 @@ LINUX_DTS = zynq-zed
 
 LINUX_DTB = zynq-zed
 
-UBOOT_REPO = u-boot-xlnx
+UBOOT_REPO = cora-uboot
 
-UBOOT_CONFIG = zynq_zed
+UBOOT_CONFIG = zynq_coraz7
 
-RISCV_CORE_ARCH = RV64IMA
+UBOOT_DTS = zynq-coraz7
+
+RISCV_CORE_ARCH = RV64IMAFD
 
 RISCV_CORE_CONFIG = ZynqSmallFPGAConfig
 
