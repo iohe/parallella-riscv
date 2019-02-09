@@ -215,11 +215,11 @@ proc create_root_design { parentCell } {
   set clk_wiz_0_100M_to_50M [ create_bd_cell -type ip -vlnv xilinx.com:ip:clk_wiz:6.0 clk_wiz_0_100M_to_50M ]
   set_property -dict [ list \
    CONFIG.CLKOUT1_DRIVES {BUFG} \
-   CONFIG.CLKOUT1_JITTER {192.113} \
-   CONFIG.CLKOUT1_PHASE_ERROR {164.985} \
+   CONFIG.CLKOUT1_JITTER {151.636} \
+   CONFIG.CLKOUT1_PHASE_ERROR {98.575} \
    CONFIG.CLKOUT1_REQUESTED_OUT_FREQ {50.000} \
    CONFIG.FEEDBACK_SOURCE {FDBK_AUTO} \
-   CONFIG.MMCM_CLKFBOUT_MULT_F {20.000} \
+   CONFIG.MMCM_CLKFBOUT_MULT_F {10.000} \
    CONFIG.MMCM_CLKOUT0_DIVIDE_F {20.000} \
    CONFIG.MMCM_DIVCLK_DIVIDE {1} \
    CONFIG.PRIM_SOURCE {No_buffer} \
@@ -233,9 +233,9 @@ proc create_root_design { parentCell } {
   set_property -dict [ list \
    CONFIG.PCW_USE_S_AXI_HP0 {1} \
    CONFIG.PCW_ACT_FPGA0_PERIPHERAL_FREQMHZ {100.000000} \
+   CONFIG.PCW_FPGA0_PERIPHERAL_FREQMHZ {100.000000} \
  ] $processing_system7_0
 
-  
   # Create instance: rst_processing_system7_0, and set properties
   set rst_processing_system7_0 [ create_bd_cell -type ip -vlnv xilinx.com:ip:proc_sys_reset:5.0 rst_processing_system7_0 ]
 
