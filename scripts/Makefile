@@ -173,21 +173,21 @@ petalinux_dir = $(base_dir)/cora/petalinux
 # you need to enable libstdc++
 # (FileSystem Packages > misc > gcc runtime)
 
-cora_software:
+#cora_software:
 # wget -P $(CORA_BSP_PATH) $(CORA_BSP_URL)
-	mkdir -p $(petalinux_dir)
-	unset LD_LIBRARY_PATH && \
-	source $(PETALINUX_PATH)/settings.sh && \
-	source $(PETALINUX_PATH)/components/yocto/source/arm/environment-setup-cortexa9hf-neon-xilinx-linux-gnueabi && \
-	cd $(petalinux_dir) && \
-	petalinux-create -t project -s $(CORA_BSP) --name riscv_zynq --force && \
-	cd riscv_zynq && \
-	petalinux-config --get-hw-description=../../fpga/ --oldconfig && \
-	petalinux-config -c rootfs && \
-	petalinux-build && \
-	petalinux-package --boot --fsbl images/linux/zynq_fsbl.elf --fpga images/linux/system.bit --u-boot
-	cp $(petalinux_dir)/riscv_zynq/images/linux/BOOT.BIN $(final_output_dir)
-	cp $(petalinux_dir)/riscv_zynq/images/linux/image.ub $(final_output_dir)
+#	mkdir -p $(petalinux_dir)
+#	unset LD_LIBRARY_PATH && \
+#	source $(PETALINUX_PATH)/settings.sh && \
+#	source $(PETALINUX_PATH)/components/yocto/source/arm/environment-setup-cortexa9hf-neon-xilinx-linux-gnueabi && \
+#	cd $(petalinux_dir) && \
+#	petalinux-create -t project -s $(CORA_BSP) --name riscv_zynq --force && \
+#	cd riscv_zynq && \
+#	petalinux-config --get-hw-description=../../fpga/ --oldconfig && \
+#	petalinux-config -c rootfs && \
+#	petalinux-build && \
+#	petalinux-package --boot --fsbl images/linux/zynq_fsbl.elf --fpga images/linux/system.bit --u-boot
+#	cp $(petalinux_dir)/riscv_zynq/images/linux/BOOT.BIN $(final_output_dir)
+#	cp $(petalinux_dir)/riscv_zynq/images/linux/image.ub $(final_output_dir)
 
 
 
@@ -221,6 +221,7 @@ CROSS_TOOLCHAIN_LINUX = arm-linux-gnueabihf
 # export LD_LIBRARY_PATH=
 
 parallella_software: arm-uboot-$(BOARD_NAME) arm-linux arm-dtb
+cora_software: arm-uboot-$(BOARD_NAME) arm-dtb
 
 arm-linux: arm-uboot-$(BOARD_NAME) # Must first build uboot because we need its tools
   # Compile kernel
